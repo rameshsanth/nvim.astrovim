@@ -1,38 +1,80 @@
 return {
-  -- customize alpha options
-  {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      -- customize the dashboard header
-      opts.section.header.val = {
-        " █████  ███████ ████████ ██████   ██████",
-        "██   ██ ██         ██    ██   ██ ██    ██",
-        "███████ ███████    ██    ██████  ██    ██",
-        "██   ██      ██    ██    ██   ██ ██    ██",
-        "██   ██ ███████    ██    ██   ██  ██████",
-        " ",
-        "    ███    ██ ██    ██ ██ ███    ███",
-        "    ████   ██ ██    ██ ██ ████  ████",
-        "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-        "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-        "    ██   ████   ████   ██ ██      ██",
-      }
-      return opts
-    end,
-  },
   -- You can disable default plugins as follows:
-  -- { "max397574/better-escape.nvim", enabled = false },
+  { "goolord/alpha-nvim", enabled = false },
+  { "max397574/better-escape.nvim", enabled = false },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signcolumn = false,
+      numhl = true,
+      current_line_blame = true,
+      current_line_blame_opts = { ignore_whitespace = true },
+    },
+  },
+  {
+    "mrjones2014/smart-splits.nvim",
+    build = "./kitty/install-kittens.bash",
+    opts = function(_, opts) opts.at_edge = require("smart-splits.types").AtEdgeBehavior.stop end,
+  },
+  {
+    -- https://github.com/stevearc/aerial.nvim
+    'stevearc/aerial.nvim',
+    -- cmd = { 'AerialOpen', 'AerialToggle' },
+    keys = {
+      { "<space>T", '<cmd>AerialToggle<cr>', desc = "Toggle Taglist(Aerial)" },
+    },
+    config = function()
+      require('aerial').setup()
+      pcall(require('telescope').load_extension, 'aerial')
+    end,
+    opts = {
+      backends = { 'lsp', 'treesitter', 'markdown', 'man' },
+      on_attach = function(bufnr)
+        vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
+        vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
+      end,
+    },
+  },
+
+  { 'rightson/vim-p4-syntax' },       -- P4 programming language syntax file
+
+  {
+    "rameshsanth/project.nvim",
+    -- dependencies = "rameshsanth/telescope.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    keys = {
+      { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Find Projects" },
+    },
+    config = function()
+      require'telescope'.load_extension('projects')
+      require("project_nvim").setup {
+        -- Manual mode doesn't automatically change your root directory, so you have
+        -- the option to manually do so using `:ProjectRoot` command.
+        manual_mode = false,
+
+        silent_chdir = false, -- print when setting project
+
+        -- Methods of detecting the root directory. **"lsp"** uses the native neovim
+        -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+        -- order matters: if one is not detected, the other is used as fallback. You
+        -- can also delete or rearangne the detection methods.
+        -- detection_methods = { "lsp", "pattern" },
+        detection_methods = { "lsp", "pattern" }, -- { "lsp", "pattern"}
+
+        -- enable_buffer_local_dir = true,
+        enable_window_local_dir = true,
+
+        -- All the patterns used to detect root dir, when **"pattern"** is in
+        -- detection_methods
+        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json" },
+        -- patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+      }
+    end
+  },
+
   --
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
-  -- {
-  --   "L3MON4D3/LuaSnip",
-  --   config = function(plugin, opts)
-  --     require "plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
-  --     -- add more custom luasnip configuration such as filetype extend or custom snippets
-  --     local luasnip = require "luasnip"
-  --     luasnip.filetype_extend("javascript", { "javascriptreact" })
-  --   end,
-  -- },
   -- {
   --   "windwp/nvim-autopairs",
   --   config = function(plugin, opts)
@@ -60,18 +102,6 @@ return {
   --       -- disable for .vim files, but it work for another filetypes
   --       Rule("a", "a", "-vim")
   --     )
-  --   end,
-  -- },
-  -- By adding to the which-key config and using our helper function you can add more which-key registered bindings
-  -- {
-  --   "folke/which-key.nvim",
-  --   config = function(plugin, opts)
-  --     require "plugins.configs.which-key"(plugin, opts) -- include the default astronvim config that calls the setup call
-  --     -- Add bindings which show up as group name
-  --     local wk = require "which-key"
-  --     wk.register({
-  --       b = { name = "Buffer" },
-  --     }, { mode = "n", prefix = "<leader>" })
   --   end,
   -- },
 }

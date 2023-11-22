@@ -1,3 +1,96 @@
+if vim.fn.executable('/usr/cisco/packages/git/2.35/bin/git') == 1 then
+  vim.g.fugitive_git_executable = '/usr/cisco/packages/git/2.35/bin/git'
+end
+-- if vim.fn.empty(vim.fn.glob('/auto/asic-tools/sw/make/4.3/bin/make')) == 1 then
+if vim.fn.executable('/auto/asic-tools/sw/make/4.3/bin/make') == 1 then
+  vim.o.makeprg='/auto/asic-tools/sw/make/4.3/bin/make'
+end
+if vim.fn.executable('/router/bin/python3.8.12') == 1 then
+  vim.g.python3_host_prog = '/router/bin/python3.8.12'
+end
+
+-- don't wrap searches at end of file
+vim.o.wrapscan = false
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
+vim.opt.diffopt:append{"iwhite"} -- ignore white space
+
+vim.o.ruler = true      -- show line and column number
+vim.o.showmatch = true  -- Jump to matching bracket briefly
+vim.o.showcmd = true    -- show commands being typed
+vim.o.shortmess = 'oCcilWfFITOtnx'  -- abbreviate messages, "atIA"
+vim.o.showmode = false  -- Don't show --INSERT-- messages
+
+-- Enable break indent
+-- Every wrapped line will continue visually indented
+vim.o.breakindent = false
+
+-- vim.o.mouse = '' -- Disable mouse mode
+vim.o.mouse="nvi"   -- Enable mouse in normal, visual and insert modes
+
+-- Pop Up Menu stuff
+-- vim.o.pumblend = 20
+vim.o.completeopt = 'menu,menuone,noinsert,noselect' -- 'menuone,noselect,preview'
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+-- vim.o.updatetime = 250
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+vim.o.modeline = true
+vim.o.scrolloff = 3
+vim.o.joinspaces = false
+-- vim.o.showtabline = 2
+vim.o.cmdheight = 3
+vim.o.cursorline = true     -- highlight current line
+vim.o.tildeop = true        -- allow tilde (~) to act as an operator -- ~w, etc.
+vim.o.hlsearch = true       -- highlight search text
+vim.o.report = 0            -- always report number of lines changed
+vim.o.splitright = true     -- Split window to right by default
+vim.o.swapfile = false      -- don't create swap
+
+-- if exists, set ripgrep as grepprg
+if vim.fn.executable("rg") == 1 then
+  vim.o.grepprg="rg --vimgrep --smart-case --follow"
+  vim.o.grepformat="%f:%l:%c:%m"
+end
+
+-- vim.o.infercase = true
+-- vim.o.smartcase = true
+-- vim.o.tagcase = 'followscs'
+local function setup_neovide_config()
+  -- if vim.fn.filereadable(vim.fn.expand('~/.config/nvim/ginit.vim')) then
+  --   vim.cmd('source ~/.config/nvim/ginit.vim')
+  -- end
+  -- See https://neovide.dev/configuration.html
+  vim.notify("Applying Neovide config", "info")
+  vim.o.mouse="nvi"
+  vim.o.guifont='Firacode Nerd Font:h13'
+
+  vim.g.neovide_theme = 'auto'
+  vim.g.everforest_transparent_background = 0
+  vim.g.everforest_background="hard"  -- hard/medium/soft
+  -- vim.g.neovide_input_use_logo = true
+  -- vim.g.neovide_cursor_vfx_mode = ""
+
+  -- vim.cmd.colorscheme('embark')
+  vim.cmd.colorscheme 'embark'
+
+  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+end
+
+if vim.g.neovide or vim.g.goneovim then
+  setup_neovide_config()
+end
+-- vim.keymap.set('n', '<leader>uN', setup_neovide_config, { desc = "Apply neovide/GUI config" })
+
 return {
   -- Configure AstroNvim updates
   updater = {

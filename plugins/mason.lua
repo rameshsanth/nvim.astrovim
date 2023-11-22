@@ -1,6 +1,6 @@
 -- customize mason plugins
 return {
-  -- use mason-lspconfig to configure LSP installations
+  --[[ -- use mason-lspconfig to configure LSP installations
   {
     "williamboman/mason-lspconfig.nvim",
     -- overrides `require("mason-lspconfig").setup(...)`
@@ -32,5 +32,5 @@ return {
         -- "python",
       })
     end,
-  },
+  }, ]]
 }

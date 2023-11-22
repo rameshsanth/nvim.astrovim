@@ -1,0 +1,51 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+extends c
+
+snippet cpp cpp-snippet
+	cpp!
+
+# # sai log generic
+# UltiSnips allows multiple choices to be provided. LuaSnip doesn't provide that feature
+# snippet sll "sai_log_{debug/error/info/notice}"
+# 	sai_log_${1|debug,error,info,notice|}(${2|SAI_API_THISFILE,SAI_API_SRV6,SAI_API_TUNNEL,SAI_API_SWITCH,SAI_API_NEXTHOP,SAI_API_MPLS,SAI_API_ROUTE,SAI_API_NEXT_HOP_GROUP|}, "${3}");
+
+# sai_log for debug and error
+# UltiSnips supports choosing from options by adding this
+#      |SAI_API_THISFILE,SAI_API_SRV6,SAI_API_TUNNEL,SAI_API_SWITCH,SAI_API_NEXTHOP,SAI_API_MPLS,SAI_API_ROUTE,SAI_API_NEXT_HOP_GROUP|
+#   Unfortunately LuaSnip doesn't support it.
+snippet sld "sai_log_debug"
+	sai_log_debug(${2|SAI_API_THISFILE,SAI_API_SRV6,SAI_API_TUNNEL,SAI_API_SWITCH,SAI_API_NEXTHOP,SAI_API_MPLS,SAI_API_ROUTE,SAI_API_NEXT_HOP_GROUP|}, "${3}");
+snippet sle "sai_log_error"
+	sai_log_error(${2|SAI_API_THISFILE,SAI_API_SRV6,SAI_API_TUNNEL,SAI_API_SWITCH,SAI_API_NEXTHOP,SAI_API_MPLS,SAI_API_ROUTE,SAI_API_NEXT_HOP_GROUP|}, "${3}");
+
+snippet lre "la_return_on_error"
+	la_return_on_error(${1|status,txn.status|}, "${2}error: %s", ${1}.message().c_str());
+
+snippet sre "sai_return_on_la_error"
+	sai_return_on_la_error(${1|status,txn.status|}, "${2}error: %s", ${1}.message().c_str());
+
