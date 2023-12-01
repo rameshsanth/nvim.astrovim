@@ -39,54 +39,28 @@ return {
 
   { import = "astrocommunity.utility.noice-nvim" },
 
+  -- git
   { import = "astrocommunity.git.blame-nvim" },
 
   -- { import = "astrocommunity.indent.indent-blankline-nvim", enabled = true },
 
-  -- { import = "astrocommunity.completion.copilot-lua-cmp" },
+  { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
   --
-  -- { import = "astrocommunity.motion.mini-surround" },
-  -- { import = "astrocommunity.motion.mini-move", enabled = true },
-  -- { import = "astrocommunity.motion.mini-surround", enabled = true },
-  -- { import = "astrocommunity.motion.mini-bracketed", enabled = true },
-  -- { import = "astrocommunity.motion.mini-ai" },
-  -- { import = "astrocommunity.indent.mini-indentscope", enabled = true },
-  --
-  -- { import = "astrocommunity.editing-support.mini-splitjoin" },
   -- -- { import = "astrocommunity.editing-support.dial-nvim", enabled = true },
   -- -- { import = "astrocommunity.editing-support.dial-nvim" },
-  -- { import = "astrocommunity.editing-support.todo-comments-nvim" },
+  --
+  -- { import = "astrocommunity.editing-support.mini-splitjoin" },
   -- { import = "astrocommunity.editing-support.mini-splitjoin", enabled = true },
 
-  -- { import = "astrocommunity.comment.mini-comment", enabled = true },
   -- { import = "astrocommunity.project.nvim-spectre", enabled = true },
   -- -- { import = "astrocommunity.code-runner.sniprun", enabled = true },
-  -- { import = "astrocommunity.comment.mini-comment" },
   -- { import = "astrocommunity.scrolling.mini-animate" },
   -- { import = "astrocommunity.indent.mini-indentscope" },
-  -- { import = "astrocommunity.git.neogit" },
   -- -- { import = "astrocommunity.media.vim-wakatime" },
   -- { import = "astrocommunity.motion.mini-ai", enabled = true },
   -- { import = "astrocommunity.project.nvim-spectre" },
-
-  --[[ plugins = {
-    {
-      "L3MON4D3/LuaSnip",
-      config = function(plugin, opts)
-        -- include the default astronvim config that calls the setup call
-        require "plugins.configs.luasnip"(plugin, opts)
-        -- load snippets paths
-        require("luasnip.loaders.from_snipmate").lazy_load {
-          -- this can be used if your configuration lives in ~/.config/nvim
-          -- if your configuration lives in ~/.config/astronvim, the full path
-          -- must be specified in the next line
-          paths = { "~/.config/nvim/lua/user/snippets" }
-        }
-      end,
-    },
-  }, ]]
 
   {
     "L3MON4D3/LuaSnip",
@@ -144,11 +118,12 @@ return {
       { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
       -- { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
       { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>fT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      -- { "<leader>fT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
   },
   {
     "catppuccin",
+    lazy = false,
     opts = function(_, opts)
       return require("astronvim.utils").extend_tbl(opts, {
         integrations = {
@@ -192,8 +167,11 @@ return {
   },
 
   -- Colorschemes
-  { 'navarasu/onedark.nvim' }, -- Theme inspired by Atom
-  { 'ribru17/bamboo.nvim' },
+  -- { 'navarasu/onedark.nvim', lazy = false }, -- Theme inspired by Atom
+  { 'ribru17/bamboo.nvim', lazy = false},
+  { 'monokai-pro.nvim', lazy = false},
+  { 'monokai-pro.nvim', lazy = false},
+  { 'sainnhe/everforest', lazy = false},
 
   -- automatically update ctags database
   {
@@ -207,6 +185,16 @@ return {
       vim.g.gutentags_ctags_exclude = { '*.js', '*.json', '*.html', '*.sv', '*.css', '*.java', '*.md', '*.patch', '*.s', '*.xml', '*.rst' }
       vim.g.gutentags_ctags_extra_args = { '--exclude=doc', '--exclude=submodules', '--exclude=out/format' }
     end
+  },
+
+  -- Need the LSP codeactions fix.
+  {
+    'stevearc/dressing.nvim',
+    version = '',
+    commit = 'fe3071330a0720ce3695ac915820c8134b22d1b0'
+    -- event = { "User AstroFile" },
+    -- config = function()
+    -- end
   },
 
   -- https://github.com/embark-theme/vim

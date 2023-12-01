@@ -22,6 +22,9 @@ return {
     ["<leader>h"] = false,  -- disable "Home screen"
     ["<C-q>"] = false,      -- disable "Force quit"
 
+    ["<C-p>"] = { "<cmd>prev<cr>", desc = "Previous file"},  -- previous
+    ["<C-n>"] = { "<cmd>next<cr>", desc = "Next file"},      -- :next
+
     -- second key is the lefthand side of the map
 
     -- navigate buffer tabs with `H` and `L`
@@ -34,7 +37,7 @@ return {
     --   desc = "Previous buffer",
     -- },
 
-    ["<space>b"] = { "<cmd>ToggleBlame<cr>", desc = "Git Blame", },
+    ["<space>G"] = { "<cmd>ToggleBlame<cr>", desc = "Git Blame", },
 
     -- not sure which works good for live grep. <space>l or <space>/
     ["<space>l"] = {
@@ -90,7 +93,7 @@ return {
       end,
       desc = "Pick to close",
     },
-    ["<leader>."] = { "<cmd>cd %:p:h<cr>", desc = "Set CWD" },
+    ["<leader>."] = { "<cmd>cd %:p:h <bar>:pwd<cr>", desc = "Set CWD to current file" },
     ["<leader>?"] = {
       function()
         require('telescope.builtin').oldfiles()
@@ -121,6 +124,12 @@ return {
       end,
       desc = "show buffers",
     },
+    ["<leader>fT"] = {
+      function()
+        require('telescope.builtin').colorscheme {enable_preview = true}
+      end,
+      desc = "Search colorscheme/themes",
+    },
 
     ['<leader>gB'] = {
       function()
@@ -129,12 +138,13 @@ return {
       desc = "Git branches"
     },
     -- ["<leader>gb"] = false,  -- disable "Git branches"
-    ["<leader>gb"] = { "<cmd>ToggleBlame<cr>", desc = "Git Blame", },
+    ["<leader>gb"] = { "<cmd>ToggleBlame<cr>", desc = "Git Blame" },
 
     -- tables with the `name` key will be registered with which-key if it's installed
     -- this is useful for naming menus
     ["<leader>b"] = { name = "Buffers" },
 
+    ["gs"] = { "<cmd>Telescope git_status<cr>", desc = "Git status" },
     -- quick save
     -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
   },
@@ -147,8 +157,8 @@ return {
       end,
       desc = "Search word",
     },
-    ["<leader>gs"] = { function() require("gitsigns").stage_hunk() end, desc = "Stage Git hunk" },
-    ["<leader>gh"] = { function() require("gitsigns").reset_hunk() end, desc = "Reset Git hunk" },
+    ["<leader>gs"] = { function() require('gitsigns').stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, desc = "Stage Git hunk" },
+    ["<leader>gh"] = { function() require('gitsigns').reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, desc = "Reset Git hunk" },
   },
 
   t = {
@@ -157,7 +167,7 @@ return {
   },
 
   ia = vim.fn.has "nvim-0.10" == 1 and {
-    mktemp = { function() return "<++>" end, desc = "Insert <++>", expr = true },
+    -- mktemp = { function() return "<++>" end, desc = "Insert <++>", expr = true },
     Ydts = { function() return os.date "%Y/%m/%d %H:%M:%S -" end, desc = "Y/m/d H:M:S -", expr = true },
     Yds = { function() return os.date "%Y%m%d" end, desc = "Ymd", expr = true },
     Ydl = { function() return os.date "%B %d, %Y" end, desc = "B d, Y", expr = true },
@@ -168,7 +178,16 @@ return {
     fdate = { function() return os.date "%B %d, %Y" end, desc = "B d, Y", expr = true },
     Xdate = { function() return os.date "%H:%M" end, desc = "H:M", expr = true },
     Fdate = { function() return os.date "%H:%M:%S" end, desc = "H:M:S", expr = true },
-    msb = { function() return require'sign'.Addsign('changes begin') end, desc = "changes end", expr = true },
-    mse = { function() return require'sign'.Addsign('changes end') end, desc = "changes end", expr = true },
+
+    -- --msr abbreviations with my signature
+    dbg = { function() return require 'user.sign'.AddSign('debug') end, desc = "debug message signature", expr = true },
+    dbgd = { function() return require 'user.sign'.AddSign('debug', true) end, desc = "debug message signature", expr = true },
+    tbd = { function() return require 'user.sign'.AddSign('TODO:') end, desc = "todo message signature", expr = true },
+    tbdd = { function() return require 'user.sign'.AddSign('TODO:', true) end, desc = "todo message signature", expr = true },
+    cmt = { function() return require 'user.sign'.AddSign() end, desc = "my comment", expr = true },
+    msb = { function() return require 'user.sign'.AddSign('changes begin', true) end, desc = "changes begin", expr = true },
+    mse = { function() return require 'user.sign'.AddSign('changes end', true) end, desc = "changes end", expr = true },
+    -- msb = { function() return vim.o.commentstring:format('--msr' .. ' changes start' .. os.date("%Y/%m/%d %H:%M:%S -")) end, desc = "changes end", expr = true },
+    -- mse = { function() return vim.o.commentstring:format('--msr' .. ' changes start') end, desc = "changes end", expr = true },
   } or nil,
 }

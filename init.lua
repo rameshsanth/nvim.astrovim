@@ -1,14 +1,3 @@
-if vim.fn.executable('/usr/cisco/packages/git/2.35/bin/git') == 1 then
-  vim.g.fugitive_git_executable = '/usr/cisco/packages/git/2.35/bin/git'
-end
--- if vim.fn.empty(vim.fn.glob('/auto/asic-tools/sw/make/4.3/bin/make')) == 1 then
-if vim.fn.executable('/auto/asic-tools/sw/make/4.3/bin/make') == 1 then
-  vim.o.makeprg='/auto/asic-tools/sw/make/4.3/bin/make'
-end
-if vim.fn.executable('/router/bin/python3.8.12') == 1 then
-  vim.g.python3_host_prog = '/router/bin/python3.8.12'
-end
-
 -- don't wrap searches at end of file
 vim.o.wrapscan = false
 
@@ -85,6 +74,9 @@ local function setup_neovide_config()
   vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
   vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
 end
+
+-- my signature
+require 'user.sign'.Signature = '--msr'
 
 if vim.g.neovide or vim.g.goneovim then
   setup_neovide_config()

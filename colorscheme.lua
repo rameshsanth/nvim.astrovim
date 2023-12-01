@@ -1,3 +1,5 @@
 -- return "monokai-pro-octagon"
 -- return "monokai-pro-machine"
-return "monokai-pro-spectrum"
+-- return "monokai-pro-spectrum"
+-- return "catppuccin-mocha"
+return "astrodark"

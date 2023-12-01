@@ -10,6 +10,44 @@ return {
       numhl = true,
       current_line_blame = true,
       current_line_blame_opts = { ignore_whitespace = true },
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']h', function()
+          if vim.wo.diff then return ']h' end
+          vim.schedule(function() gs.next_hunk() end)
+          return '<Ignore>'
+        end, {expr=true, desc = 'next chunk'})
+
+        map('n', '[h', function()
+          if vim.wo.diff then return '[h' end
+          vim.schedule(function() gs.prev_hunk() end)
+          return '<Ignore>'
+        end, {expr=true, desc = 'previous chunk'})
+
+        -- Actions
+        map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>', { desc = 'Git Stage Hunk'})
+        map({'n', 'v'}, '<leader>hu', gs.undo_stage_hunk, { desc = 'Git Unstage Hunk'}) -- Undo the last call of stage_hunk().
+        map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>', { desc = 'Git Reset Hunk'})
+        map('n', '<leader>hS', gs.stage_buffer, { desc = 'Git Stage Buffer'})
+        map('n', '<leader>hR', gs.reset_buffer, { desc = 'Git Reset Buffer'})
+        map('n', '<leader>hp', gs.preview_hunk, { desc = 'Git Preview Hunk'})
+        map('n', '<leader>hb', function() gs.blame_line{full=true} end, { desc = 'Git Blame line'})
+        map('n', '<leader>hd', gs.diffthis, { desc = 'Git Diff this'})
+        map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = 'Git diff this against ~'})
+        map('n', '<leader>ub', gs.toggle_current_line_blame, { desc = 'Toggle current line Git Blame'})
+        map('n', '<leader>uD', gs.toggle_deleted, { desc = 'Git toggle deleted - show original'})
+
+        -- Text object
+        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = "Gitsigns Select Hunk"} )
+      end,
     },
   },
   {
