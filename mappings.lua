@@ -15,6 +15,16 @@ vim.api.nvim_create_user_command('CloseFloatingWindows', function(opts)
     end
 end, { bang = true, nargs = 0 })
 
+local wk = require('which-key')
+wk.register({
+  D = {
+    name = "Diagram",
+  },
+  h = {
+    name = "Git Hunks",
+  },
+}, { prefix = "<leader>" })
+
 return {
   -- first key is the mode
   n = {
@@ -78,6 +88,8 @@ return {
     ["<leader><C-]>"] = { '<cmd>sp <CR>:exec("tag ".expand("<cword>"))<CR>', desc = "Open tag in horizontal split"},  -- open tag in vertical split
 
     ["<space>-"] = { "<cmd>split<cr>", desc = "Split window horizontally", },
+    ["<space>_"] = { "<cmd>split<cr>", desc = "Split window horizontally", },
+    ["<space>|"] = { "<cmd>vsplit<cr>", desc = "Split window vertically", },
     ["<space>\\"] = { "<cmd>vsplit<cr>", desc = "Split window vertically", },
     ['\\'] = false,
     ['|'] = false,

@@ -50,17 +50,12 @@ return {
   --
   -- -- { import = "astrocommunity.editing-support.dial-nvim", enabled = true },
   -- -- { import = "astrocommunity.editing-support.dial-nvim" },
-  --
-  -- { import = "astrocommunity.editing-support.mini-splitjoin" },
-  -- { import = "astrocommunity.editing-support.mini-splitjoin", enabled = true },
 
+  -- Search and replace globally.
   -- { import = "astrocommunity.project.nvim-spectre", enabled = true },
-  -- -- { import = "astrocommunity.code-runner.sniprun", enabled = true },
-  -- { import = "astrocommunity.scrolling.mini-animate" },
-  -- { import = "astrocommunity.indent.mini-indentscope" },
-  -- -- { import = "astrocommunity.media.vim-wakatime" },
-  -- { import = "astrocommunity.motion.mini-ai", enabled = true },
-  -- { import = "astrocommunity.project.nvim-spectre" },
+
+  -- debugging on the fly
+  -- { import = "astrocommunity.code-runner.sniprun", enabled = true },
 
   {
     "L3MON4D3/LuaSnip",

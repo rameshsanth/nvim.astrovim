@@ -1,7 +1,7 @@
 return {
   "jbyuki/venn.nvim", -- draw network/venn diagrams easily
   lazy = true,
-  keys = { { "<leader>ve", "<cmd>lua Toggle_venn()<cr>", desc = "enable diagram mode" } },
+  keys = { { "<leader>Dt", "<cmd>lua Toggle_venn()<cr>", desc = "Toggle Diagram mode", mode = 'n' } },
   config = function()
     -- https://github.com/jbyuki/venn.nvim
     -- Draw diagrams in vi with ease.

@@ -61,6 +61,7 @@ return {
     -- cmd = { 'AerialOpen', 'AerialToggle' },
     keys = {
       { "<space>T", '<cmd>AerialToggle<cr>', desc = "Toggle Taglist(Aerial)" },
+      { "<space>O", '<cmd>Telescope aerial<cr>', desc = "[LSP] Document symbols" },
     },
     config = function()
       require('aerial').setup()
